@@ -2,6 +2,7 @@
 
 ## BUG-001 : le nom du produit affiché sur l'accueil ne correspond pas au produit en question
 **Sévérité :** High
+**Priorité :** High
 
 **Environnement :**
 - Navigateur : Chrome 124
@@ -27,6 +28,7 @@ Preuve : [screenshot]
 
 ## BUG-002 : les images miniatures sont toutes les mêmes
 **Sévérité :** low
+**Priorité :** High
 
 **Environnement :**
 - Navigateur : Chrome 124
