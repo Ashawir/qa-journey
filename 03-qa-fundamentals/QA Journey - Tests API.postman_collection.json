@@ -1,0 +1,161 @@
+{
+  "info": {
+    "_postman_id": "0fe9fbea-c25f-48d5-a926-406ae0057763",
+    "name": "QA Journey - Tests API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "54543419",
+    "_collection_link": "https://go.postman.co/collection/54543419-0fe9fbea-c25f-48d5-a926-406ae0057763?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "GET - Utilisateur existant",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Test 1 — Vérifier le statut",
+              "pm.test(\"Statut est 200\", function() {",
+              "    pm.response.to.have.status(200)",
+              "})",
+              "",
+              "// Test 2 — Vérifier que l'email contient @",
+              "pm.test(\"Email est valide\", function() {",
+              "    const donnees = pm.response.json()",
+              "    pm.expect(donnees.email).to.include(\"@\")",
+              "})",
+              "",
+              "// Test 3 — Vérifier que le nom n'est pas vide",
+              "pm.test(\"Nom n'est pas vide\", function() {",
+              "    const donnees = pm.response.json()",
+              "    pm.expect(donnees.name).to.not.be.empty",
+              "})"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users/1",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET - Utilisateur inexistant",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Vérifier le status 404",
+              "pm.test(\"Status est 404\", function(){",
+              "    pm.response.to.have.status(404)",
+              "})",
+              "",
+              "// Vérifier le body de la réponse est vide",
+              "pm.test(\"Body est vide\", function(){",
+              "    const donnees = pm.response.json()",
+              "    pm.expect(donnees).to.be.empty",
+              "})",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/users/999",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "users",
+            "999"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST - Créer un article",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Vérifier status 201",
+              "pm.test(\"Status est 201\", function(){",
+              "    pm.response.to.have.status(201)",
+              "})",
+              "",
+              "// Vérifier que l'Id existe",
+              "pm.test(\"L'Id existe\", function(){",
+              "    const donnees = pm.response.json()",
+              "    pm.expect(donnees.id).to.exist",
+              "})",
+              "",
+              "// Vérifier titre retourné est Test QA Postman",
+              "pm.test(\"Titre est Test QA Postman\", function(){",
+              "    const donnees = pm.response.json()",
+              "    pm.expect(donnees.title).to.eql(\"Test QA Postman\")",
+              "})"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"title\": \"Test QA Postman\",\n    \"body\": \"Contenu de test\",\n    \"userId\": 1\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/posts",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "posts"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
