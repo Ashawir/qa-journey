@@ -1,32 +1,42 @@
 const { test, expect } = require('@playwright/test')
+const LoginPage = require('./pages/LoginPage')
 
 test('Login avec identifiants valides', async ({ page }) => {
-    // Ouvrir la page
-    await page.goto('/')
+    const loginPage = new LoginPage(page)
 
-    // Remplir le formulaire
-    await page.fill('#user-name', 'standard_user')
-    await page.fill('#password', 'secret_sauce')
+    await loginPage.goto()
+    await loginPage.login('standard_user', 'secret_sauce')
 
-    // Cliquer sur Login
-    await page.click('#login-button')
-
-    // Vérifier qu'on est sur le dashboard
     await expect(page).toHaveURL('/inventory.html')
     await expect(page.locator('.title')).toHaveText('Products')
 })
 
-test('login avec mot de passe incorrect', async ({ page }) => {
-    // Ouvrir la page
-    await page.goto('/')
+test('Login avec mot de passe incorrect', async ({ page }) => {
+    const loginPage = new LoginPage(page)
 
-    // Remplir le formulaire
-    await page.fill('#user-name', 'standard_user')
-    await page.fill('#password', 'motdepassefaux')
+    await loginPage.goto()
+    await loginPage.login('standard_user', 'motdepassefaux')
 
-    // Cliquer sur login
-    await page.click('#login-button')
+    const errorMessage = await loginPage.getErrorMessage()
+    await expect(errorMessage).toContainText('Username and password do not match any user')
+})
 
-    // Verifier que le message d'erreur apparait
-    await expect(page.locator('.error-message-container.error')).toContainText('Username and password do not match any user')
+test('login avec username vide', async({ page }) => {
+    const loginPage = new LoginPage(page)
+
+    await loginPage.goto()
+    await loginPage.login('', 'secret_sauce')
+
+    const errorMessage = await loginPage.getErrorMessage()
+    await expect(errorMessage).toContainText('Username is required')
+})
+
+test('login avec les deux champs vides', async({ page }) => {
+    const loginPage = new LoginPage(page)
+
+    await loginPage.goto()
+    await loginPage.login('', '')
+
+    const errorMessage = await loginPage.getErrorMessage()
+    await expect(errorMessage).toContainText('Username is required')
 })
