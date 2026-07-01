@@ -29,6 +29,17 @@ class InventoryPage {
     async sortBy(option) {
         await this.sortDropdown.selectOption(option)
     }
+
+    async openFirstProduct() {
+    await this.productList.first()
+        .locator('.inventory_item_name')
+        .click()
+    }
+
+    async openCart() {
+
+    await this.cartIcon.click()
+    }
 }
 
 module.exports = InventoryPage
