@@ -5,7 +5,7 @@ module.exports = defineConfig({
     timeout: 30000,
     use: {
         baseURL: 'https://www.saucedemo.com',
-        headless: false,
+        headless: true,
         screenshot: 'only-on-failure',
         video: 'retain-on-failure'
     },
